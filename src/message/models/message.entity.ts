@@ -15,6 +15,8 @@ class ReplyMessageSocket {
   richContent?: RichMessageContent;
 
   deleted?: boolean;
+
+  tags?: string[];
 }
 
 @ObjectType()
@@ -112,6 +114,15 @@ export class ChatMessageData {
   @Field()
   sender: UserField;
 }
+//tags
+@ObjectType()
+export class Tag {
+  @Field()
+  text: string;
+
+  @Field(() => [ObjectID])
+  messageIds: ObjectID[];
+}
 
 @ObjectType()
 @Directive('@key(fields: "id")')
@@ -148,6 +159,9 @@ export class ChatMessage {
 
   @Field({ defaultValue: false, nullable: true })
   isSenderBlocked?: boolean;
+
+  @Field(() => [String], { nullable: true })
+  tags?: string[];
 }
 
 /***
@@ -176,6 +190,8 @@ export class SocketChatMessage {
   reactions?: Reaction[];
 
   isSenderBlocked?: boolean;
+
+  tags: string[];
 }
 
 @ObjectType()

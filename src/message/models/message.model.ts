@@ -116,6 +116,15 @@ export class Reaction {
 }
 
 @Schema()
+export class Tag {
+  @Prop({ unique: true })
+  text: string;
+
+  @Prop({ type: [ObjectID] })
+  messageIds: ObjectID[];
+}
+
+@Schema()
 export class ChatMessageModel {
   id: ObjectID;
 
@@ -154,6 +163,9 @@ export class ChatMessageModel {
   })
   reactions?: Reaction[];
 
+  // Add tags field
+  @Prop({ type: [String], default: [] })
+  tags: string[];
   /**
    * All the properties below are virtual properties
    * @url https://mongoosejs.com/docs/tutorials/virtuals.html
