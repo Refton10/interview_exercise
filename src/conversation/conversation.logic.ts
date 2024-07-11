@@ -483,6 +483,7 @@ export class ConversationLogic implements IConversationLogic {
         likesCount: message.likesCount,
         richContent: richContent,
         resolved: message.resolved,
+        tags: message.tags,
       },
     });
 

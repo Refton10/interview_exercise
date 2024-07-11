@@ -115,6 +115,11 @@ export class MessageLogic implements IMessageLogic {
       this.conversationData.getConversation(conversationId),
     ]);
 
+    // handle tags
+    if (messageDto.tags) {
+      await this.updateTags(message.id, messageDto.tags);
+    }
+
     // Mark this message as the last message in the conversation
     await this.conversationData.updateConversationWithLastMessage(
       conversationId,
@@ -694,5 +699,17 @@ export class MessageLogic implements IMessageLogic {
     }
 
     return pollOption;
+  }
+
+  private async updateTags(
+    messageId: ObjectID,
+    tags: string[],
+  ): Promise<ChatMessage> {
+    const message = await this.messageData.getMessage(messageId.toHexString());
+    if (!message) {
+      throw new Error('Message not found');
+    }
+    message.tags = tags;
+    return message;
   }
 }
